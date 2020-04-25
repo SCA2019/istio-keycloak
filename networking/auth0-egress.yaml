@@ -4,9 +4,10 @@ metadata:
   name: auth0-ext
 spec:
   hosts:
-  - {YOUR_DOMAIN}
+  # - {YOUR_DOMAIN}
+  - keycloakhost
   ports:
-  - number: 443
+  - number: 8280
     name: https
     protocol: HTTPS
   - number: 80
@@ -18,18 +19,22 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: {YOUR_DOMAIN}
+  # name: {YOUR_DOMAIN}
+  name: keycloakhost
 spec:
   hosts:
-  - {YOUR_DOMAIN}
+  # - {YOUR_DOMAIN}
+  - keycloakhost
   tls:
   - match:
-    - port: 443
+    - port: 8280
       sni_hosts:
-      - {YOUR_DOMAIN}
+      # - {YOUR_DOMAIN}
+      - keycloakhost
     route:
     - destination:
-        host: {YOUR_DOMAIN}
+        # host: {YOUR_DOMAIN}
+        host: keycloakhost
         port:
-          number: 443
+          number: 8280
       weight: 100

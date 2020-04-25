@@ -23,6 +23,9 @@ from jaeger_client.codecs import B3Codec
 from opentracing.ext import tags
 from opentracing.propagation import Format
 from opentracing_instrumentation.request_context import get_current_span, span_in_context
+from authlib.flask.client import OAuth
+from six.moves.urllib.parse import urlencode
+
 import simplejson as json
 import requests
 import sys
@@ -54,6 +57,37 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 from flask_bootstrap import Bootstrap
 Bootstrap(app)
+
+# AUTH0_CALLBACK_URL = "http://{YOUR-CLUSTER-PUBLIC-IP}/callback"
+AUTH0_CALLBACK_URL = "http://172.42.42.99:31079/callback"
+
+# AUTH0_CLIENT_ID = "{YOUR-APPLICATION-CLIENT-ID}"
+AUTH0_CLIENT_ID = "book-ui"
+
+# AUTH0_CLIENT_SECRET = "{YOUR-APPLICATION-CLIENT-SECRET}"
+AUTH0_CLIENT_SECRET = "b35e1fab-0675-4f83-9e96-61c1a31ac3f9"
+
+# AUTH0_DOMAIN = "{YOUR-AUTH0-DOMAIN}"
+AUTH0_DOMAIN = "172.42.42.30:8280"
+AUTH0_BASE_URL = 'https://' + AUTH0_DOMAIN
+
+# AUTH0_AUDIENCE = "{YOUR-AUDIENCE}"
+AUTH0_AUDIENCE = "account"
+
+oauth = OAuth(app)
+auth0 = oauth.register(
+    'auth0',
+    client_id=AUTH0_CLIENT_ID,
+    client_secret=AUTH0_CLIENT_SECRET,
+    api_base_url=AUTH0_BASE_URL,
+    # https://172.42.42.30:8280/auth/realms/bookshop/protocol/openid-connect/token
+    access_token_url=AUTH0_BASE_URL + '/auth/realms/bookshop/protocol/openid-connect/token',
+    # https://172.42.42.30:8280/auth/realms/bookshop/protocol/openid-connect/auth
+    authorize_url=AUTH0_BASE_URL + '/auth/realms/bookshop/protocol/openid-connect/auth',
+    client_kwargs={
+        'scope': 'openid profile',
+    },
+)
 
 servicesDomain = "" if (os.environ.get("SERVICES_DOMAIN") == None) else "." + os.environ.get("SERVICES_DOMAIN")
 
@@ -161,6 +195,9 @@ def trace():
 def getForwardHeaders(request):
     headers = {}
 
+    if 'access_token' in session:
+        headers['Authorization'] = 'Bearer ' + session['access_token']
+
     # x-b3-*** headers can be populated using the opentracing span
     span = get_current_span()
     carrier = {}
@@ -203,6 +240,32 @@ def index():
 def health():
     return 'Product page is healthy'
 
+@app.route('/login')
+def login():
+    return auth0.authorize_redirect(redirect_uri=AUTH0_CALLBACK_URL, 
+                                    audience=AUTH0_AUDIENCE,scope="openid")
+@app.route('/callback')
+def callback():
+    response = auth0.authorize_access_token(verify=False)          # 1
+    session['access_token'] = response['access_token'] # 2
+    # https://172.42.42.30:8280/auth/realms/bookshop/protocol/openid-connect/userinfo
+    # userinfoResponse = auth0.get('userinfo',verify=False)           # 3
+    userinfoResponse = auth0.get('auth/realms/bookshop/protocol/openid-connect/userinfo',verify=False)           # 3
+    userinfo = userinfoResponse.json()
+    # session['user'] = userinfo['nickname']             # 4
+    session['user'] = userinfo['name']             # 4
+    # session['user'] = 'hardcoded-dummy'             # 4
+    return redirect('/productpage')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    # params = {'returnTo': url_for('front', _external=True),
+    #           'client_id': AUTH0_CLIENT_ID}
+    params = {'redirect_uri': url_for('front', _external=True)}
+    # return redirect(auth0.api_base_url + '/v2/logout?' + urlencode(params))
+    #   https://172.42.42.30:8280/auth/realms/bookshop/protocol/openid-connect/logout
+    return redirect(auth0.api_base_url + '/auth/realms/bookshop/protocol/openid-connect/logout?' + urlencode(params))
 
 @app.route('/productpage')
 @trace()

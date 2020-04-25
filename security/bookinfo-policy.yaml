@@ -3,13 +3,19 @@ kind: "Policy"
 metadata:
   name: bookinfo
 spec:
+  peers:
+  - mtls:
+      mode: STRICT
   targets:
   - name: reviews
   - name: ratings
   - name: details
   origins:
   - jwt:
-      issuer: "https://{YOUR_DOMAIN}/"
-      jwksUri: "https://{YOUR_DOMAIN}/.well-known/jwks.json"
+      # issuer: "https://{YOUR_DOMAIN}/"
+      issuer: "https://172.42.42.30:8280/auth/realms/bookshop"
+      # issuer: "https://keycloakhost:8280/auth/realms/bookshop"
+      # jwksUri: "https://{YOUR_DOMAIN}/.well-known/jwks.json"
+      jwksUri: "https://172.42.42.30:8280/auth/realms/bookshop/protocol/openid-connect/certs"
+      # jwksUri: "https://keycloakhost:8280/auth/realms/bookshop/protocol/openid-connect/certs"
   principalBinding: USE_ORIGIN
-  
