@@ -82,6 +82,13 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9080
+        resources:
+         limits:
+            cpu: 100m
+            memory: 128Mi
+         requests:
+            cpu: 100m
+            memory: 128Mi	         
 ---
 ##################################################################################################
 # Ratings service
@@ -145,7 +152,7 @@ spec:
             memory: 128Mi
          requests:
             cpu: 100m
-            memory: 128i	        
+            memory: 128Mi	        
 ---
 ##################################################################################################
 # Reviews service
@@ -217,7 +224,7 @@ spec:
             memory: 128Mi
          requests:
             cpu: 100m
-            memory: 128i	          
+            memory: 128Mi	          
       volumes:
       - name: wlp-output
         emptyDir: {}
@@ -265,7 +272,7 @@ spec:
             memory: 128Mi
          requests:
             cpu: 100m
-            memory: 128i	        
+            memory: 128Mi	        
         volumeMounts:
         - name: tmp
           mountPath: /tmp
@@ -318,7 +325,7 @@ spec:
             memory: 128Mi
          requests:
             cpu: 100m
-            memory: 128i	        
+            memory: 128Mi	        
         volumeMounts:
         - name: tmp
           mountPath: /tmp
@@ -391,7 +398,7 @@ spec:
             memory: 128Mi
          requests:
             cpu: 100m
-            memory: 128i	        
+            memory: 128Mi	        
         volumeMounts:
         - name: tmp
           mountPath: /tmp
