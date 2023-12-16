@@ -87,9 +87,9 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
         sidecar.istio.io/proxyCPULimit: 50m
-        sidecar.istio.io/proxyMemoryLimit: 128Mi
+        sidecar.istio.io/proxyMemoryLimit: 64Mi
         sidecar.istio.io/proxyCPU: 50m
-        sidecar.istio.io/proxyMemory: 128Mi            
+        sidecar.istio.io/proxyMemory: 64Mi            
       labels:
         app: details
         version: v1
@@ -107,7 +107,7 @@ spec:
             memory: 128Mi
          requests:
             cpu: 100m
-            memory: 128Mi	         
+            memory: 64Mi	         
 ---
 ##################################################################################################
 # Ratings service
@@ -153,7 +153,7 @@ spec:
         sidecar.istio.io/proxyCPULimit: 50m
         sidecar.istio.io/proxyMemoryLimit: 128Mi
         sidecar.istio.io/proxyCPU: 50m
-        sidecar.istio.io/proxyMemory: 128Mi            
+        sidecar.istio.io/proxyMemory: 64Mi            
       labels:
         app: ratings
         version: v1
@@ -171,7 +171,7 @@ spec:
             memory: 128Mi
          requests:
             cpu: 100m
-            memory: 128Mi	        
+            memory: 64Mi	        
 ---
 ##################################################################################################
 # Reviews service
