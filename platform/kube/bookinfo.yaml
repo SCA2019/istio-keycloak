@@ -381,6 +381,10 @@ spec:
         prometheus.io/port: "9080"
         prometheus.io/path: "/metrics"
         sidecar.istio.io/inject: "true"
+        sidecar.istio.io/proxyCPULimit: 50m
+        sidecar.istio.io/proxyMemoryLimit: 128Mi
+        sidecar.istio.io/proxyCPU: 50m
+        sidecar.istio.io/proxyMemory: 128Mi          
       labels:
         app: productpage
         version: v1
