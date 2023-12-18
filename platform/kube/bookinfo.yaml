@@ -97,7 +97,7 @@ spec:
       serviceAccountName: bookinfo-details
       containers:
       - name: details
-        image: quay.io/maistra/examples-bookinfo-details-v1:2.3.0
+        image: quay.io/maistra/examples-bookinfo-details-v1:2.4.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9080
@@ -561,7 +561,8 @@ spec:
     failureLimit: 3
     provider:
       prometheus:
-        address: https://prometheus-istio-system.apps.openhack.pvcz.p1.openshiftapps.com
+        address: https://prometheus.istio-system.svc.cluster.local:9090
+        insecure: true
         query: |
           sum(irate(
             istio_requests_total{reporter="source",destination_service=~"{{args.service-name}}",response_code!~"5.*"}[1m]
@@ -586,7 +587,8 @@ spec:
     failureLimit: 3
     provider:
       prometheus:
-        address: https://prometheus-istio-system.apps.openhack.pvcz.p1.openshiftapps.com
+        address: https://prometheus.istio-system.svc.cluster.local:9090
+        insecure: true
         query: |
           sum(irate(
             istio_requests_total{reporter="source",destination_service=~"{{args.service-name}}",response_code!~"5.*"}[1m]
