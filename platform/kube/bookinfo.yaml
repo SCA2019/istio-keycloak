@@ -53,12 +53,13 @@ metadata:
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: details-v1
+  name: details
   labels:
     app: details
     version: v1
 spec:
-  replicas: 5
+  replicas: 2
+  revisionHistoryLimit: 2
   strategy:
     canary:
       analysis:
@@ -67,7 +68,7 @@ spec:
         startingStep: 2 # delay starting analysis run until setWeight: 40%
         args:
         - name: service-name
-          value: details.bookinfo.svc.cluster.local
+          value: details.book.svc.cluster.local
       steps:
       - setWeight: 20
       - pause: {duration: 1m}
@@ -76,7 +77,7 @@ spec:
       - setWeight: 60
       - pause: {duration: 1m}
       - setWeight: 80
-      - pause: {duration: 1m}    
+      - pause: {duration: 1m}   
   selector:
     matchLabels:
       app: details
