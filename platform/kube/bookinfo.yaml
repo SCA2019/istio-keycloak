@@ -50,8 +50,8 @@ metadata:
   labels:
     account: details
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: details-v1
   labels:
