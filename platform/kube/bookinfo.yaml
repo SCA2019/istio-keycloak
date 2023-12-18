@@ -68,7 +68,7 @@ spec:
         startingStep: 2 # delay starting analysis run until setWeight: 40%
         args:
         - name: service-name
-          value: details.book.svc.cluster.local
+          value: details.bookinfo.svc.cluster.local
       steps:
       - setWeight: 20
       - pause: {duration: 1m}
@@ -97,7 +97,7 @@ spec:
       serviceAccountName: bookinfo-details
       containers:
       - name: details
-        image: quay.io/maistra/examples-bookinfo-details-v1:2.4.0
+        image: quay.io/maistra/examples-bookinfo-details-v1:2.3.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9080
