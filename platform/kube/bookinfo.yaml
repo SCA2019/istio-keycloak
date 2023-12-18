@@ -50,15 +50,34 @@ metadata:
   labels:
     account: details
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: details
   labels:
     app: details
     version: v1
 spec:
-  replicas: 1
+  replicas: 5
+  revisionHistoryLimit: 2
+  strategy:
+    canary:
+      analysis:
+        templates:
+        - templateName: success-rate
+        startingStep: 2 # delay starting analysis run until setWeight: 40%
+        args:
+        - name: service-name
+          value: details.book.svc.cluster.local
+      steps:
+      - setWeight: 20
+      - pause: {duration: 1m}
+      - setWeight: 40
+      - pause: {duration: 1m}
+      - setWeight: 60
+      - pause: {duration: 1m}
+      - setWeight: 80
+      - pause: {duration: 1m} 
   selector:
     matchLabels:
       app: details
@@ -78,7 +97,7 @@ spec:
       serviceAccountName: bookinfo-details
       containers:
       - name: details
-        image: quay.io/maistra/examples-bookinfo-details-v1:2.4.0
+        image: quay.io/maistra/examples-bookinfo-details-v1:2.3.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9080
@@ -89,6 +108,7 @@ spec:
          requests:
             cpu: 100m
             memory: 64Mi	         
+---            
 ##################################################################################################
 # Ratings service
 ##################################################################################################
