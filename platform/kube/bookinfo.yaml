@@ -103,10 +103,10 @@ spec:
         - containerPort: 9080
         resources:
          limits:
-            cpu: 100m
-            memory: 128Mi
+            cpu: 50m
+            memory: 64Mi
          requests:
-            cpu: 100m
+            cpu: 50m
             memory: 64Mi	         
 ---            
 ##################################################################################################
@@ -151,7 +151,7 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
         sidecar.istio.io/proxyCPULimit: 50m
-        sidecar.istio.io/proxyMemoryLimit: 128Mi
+        sidecar.istio.io/proxyMemoryLimit: 64Mi
         sidecar.istio.io/proxyCPU: 50m
         sidecar.istio.io/proxyMemory: 64Mi            
       labels:
@@ -167,10 +167,10 @@ spec:
         - containerPort: 9080
         resources:
          limits:
-            cpu: 100m
-            memory: 128Mi
+            cpu: 50m
+            memory: 64Mi
          requests:
-            cpu: 100m
+            cpu: 50m
             memory: 64Mi	        
 ---
 ##################################################################################################
@@ -215,9 +215,9 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
         sidecar.istio.io/proxyCPULimit: 50m
-        sidecar.istio.io/proxyMemoryLimit: 128Mi
+        sidecar.istio.io/proxyMemoryLimit: 64Mi
         sidecar.istio.io/proxyCPU: 50m
-        sidecar.istio.io/proxyMemory: 128Mi            
+        sidecar.istio.io/proxyMemory: 64Mi            
       labels:
         app: reviews
         version: v1
@@ -239,11 +239,11 @@ spec:
           mountPath: /opt/ibm/wlp/output
         resources:
          limits:
-            cpu: 100m
-            memory: 128Mi
+            cpu: 50m
+            memory: 64Mi
          requests:
-            cpu: 100m
-            memory: 128Mi	          
+            cpu: 50m
+            memory: 64Mi	          
       volumes:
       - name: wlp-output
         emptyDir: {}
@@ -268,9 +268,9 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
         sidecar.istio.io/proxyCPULimit: 50m
-        sidecar.istio.io/proxyMemoryLimit: 128Mi
+        sidecar.istio.io/proxyMemoryLimit: 64Mi
         sidecar.istio.io/proxyCPU: 50m
-        sidecar.istio.io/proxyMemory: 128Mi            
+        sidecar.istio.io/proxyMemory: 64Mi            
       labels:
         app: reviews
         version: v2
@@ -287,11 +287,11 @@ spec:
         - containerPort: 9080
         resources:
          limits:
-            cpu: 100m
-            memory: 128Mi
+            cpu: 50m
+            memory: 64Mi
          requests:
-            cpu: 100m
-            memory: 128Mi	        
+            cpu: 50m
+            memory: 64Mi	        
         volumeMounts:
         - name: tmp
           mountPath: /tmp
@@ -321,9 +321,9 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
         sidecar.istio.io/proxyCPULimit: 50m
-        sidecar.istio.io/proxyMemoryLimit: 128Mi
+        sidecar.istio.io/proxyMemoryLimit: 64Mi
         sidecar.istio.io/proxyCPU: 50m
-        sidecar.istio.io/proxyMemory: 128Mi         
+        sidecar.istio.io/proxyMemory: 64Mi         
       labels:
         app: reviews
         version: v3
@@ -340,11 +340,11 @@ spec:
         - containerPort: 9080
         resources:
          limits:
-            cpu: 100m
-            memory: 128Mi
+            cpu: 50m
+            memory: 64Mi
          requests:
-            cpu: 100m
-            memory: 128Mi	        
+            cpu: 50m
+            memory: 64Mi	        
         volumeMounts:
         - name: tmp
           mountPath: /tmp
@@ -401,9 +401,9 @@ spec:
         prometheus.io/path: "/metrics"
         sidecar.istio.io/inject: "true"
         sidecar.istio.io/proxyCPULimit: 50m
-        sidecar.istio.io/proxyMemoryLimit: 128Mi
+        sidecar.istio.io/proxyMemoryLimit: 64Mi
         sidecar.istio.io/proxyCPU: 50m
-        sidecar.istio.io/proxyMemory: 128Mi          
+        sidecar.istio.io/proxyMemory: 64Mi          
       labels:
         app: productpage
         version: v1
@@ -417,11 +417,11 @@ spec:
         - containerPort: 9080
         resources:
          limits:
-            cpu: 100m
-            memory: 128Mi
+            cpu: 50m
+            memory: 64Mi
          requests:
-            cpu: 100m
-            memory: 128Mi	        
+            cpu: 50m
+            memory: 64Mi	        
         volumeMounts:
         - name: tmp
           mountPath: /tmp
