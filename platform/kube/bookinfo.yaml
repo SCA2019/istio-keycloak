@@ -97,7 +97,7 @@ spec:
       serviceAccountName: bookinfo-details
       containers:
       - name: details
-        image: quay.io/maistra/examples-bookinfo-details-v1:2.4.0
+        image: quay.io/maistra/examples-bookinfo-details-v1:2.3.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9080
@@ -380,8 +380,8 @@ metadata:
   labels:
     account: productpage
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: productpage-v1
   labels:
@@ -389,6 +389,24 @@ metadata:
     version: v1
 spec:
   replicas: 1
+  strategy:
+    canary:
+      analysis:
+        templates:
+        - templateName: success-rate
+        startingStep: 1 # delay starting analysis run until setWeight: 20%
+        args:
+        - name: service-name
+          value: productpage.bookinfo.svc.cluster.local
+      steps:
+      - setWeight: 20
+      - pause: {duration: 1m}
+      - setWeight: 40
+      - pause: {duration: 1m}
+      - setWeight: 60
+      - pause: {duration: 1m}
+      - setWeight: 80
+      - pause: {duration: 1m}   
   selector:
     matchLabels:
       app: productpage
