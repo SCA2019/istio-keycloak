@@ -34,7 +34,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: reviews
-  namespace: bookinfo-prod
+  namespace: bookinfo
   labels:
     app: reviews
     service: reviews
@@ -49,7 +49,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: bookinfo-reviews
-  namespace: bookinfo-prod
+  namespace: bookinfo
   labels:
     account: reviews
 ---
@@ -57,7 +57,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: reviews-v1
-  namespace: bookinfo-prod
+  namespace: bookinfo
   labels:
     app: reviews
     version: v1
@@ -111,7 +111,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: reviews-v2
-  namespace: bookinfo-prod
+  namespace: bookinfo
   labels:
     app: reviews
     version: v2
@@ -168,7 +168,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: productpage
-  namespace: bookinfo-prod
+  namespace: bookinfo
   labels:
     app: productpage
     service: productpage
@@ -182,8 +182,8 @@ spec:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: bookinfo-productpage
-  namespace: bookinfo-prod
+  name: bookinfouctpage
+  namespace: bookinfo
   labels:
     account: productpage
 ---
@@ -191,7 +191,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: productpage-v1
-  namespace: bookinfo-prod
+  namespace: bookinfo
   labels:
     app: productpage
     version: v1
@@ -232,10 +232,10 @@ spec:
         app: productpage
         version: v1
     spec:
-      serviceAccountName: bookinfo-productpage
+      serviceAccountName: bookinfouctpage
       containers:
       - name: productpage
-        image: quay.io/maistra/examples-bookinfo-productpage-v1:2.4.0
+        image: quay.io/maistra/examples-bookinfouctpage-v1:2.4.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9080
@@ -257,7 +257,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: bookinfo-gateway
-  namespace: bookinfo-prod
+  namespace: bookinfo
 spec:
   selector:
     istio: ingressgateway # use istio default controller
@@ -273,7 +273,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: bookinfo
-  namespace: bookinfo-prod
+  namespace: bookinfo
 spec:
   hosts:
   - "*"
@@ -301,7 +301,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: productpage
-  namespace: bookinfo-prod
+  namespace: bookinfo
 spec:
   host: productpage
   trafficPolicy:
@@ -316,7 +316,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: reviews
-  namespace: bookinfo-prod
+  namespace: bookinfo
 spec:
   host: reviews
   trafficPolicy:
@@ -337,7 +337,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: AnalysisTemplate
 metadata:
   name: success-rate
-  namespace: bookinfo-prod
+  namespace: bookinfo
 spec:
   args:
   - name: service-name
@@ -364,7 +364,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: AnalysisTemplate
 metadata:
   name: error-rate
-  namespace: bookinfo-prod
+  namespace: bookinfo
 spec:
   args:
   - name: service-name
