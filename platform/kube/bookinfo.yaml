@@ -99,10 +99,10 @@ spec:
     metadata:
       annotations:
         sidecar.istio.io/inject: "true"
-        sidecar.istio.io/proxyCPULimit: 50m
-        sidecar.istio.io/proxyMemoryLimit: 64Mi
-        sidecar.istio.io/proxyCPU: 50m
-        sidecar.istio.io/proxyMemory: 64Mi            
+        sidecar.istio.io/proxyCPULimit: 150m
+        sidecar.istio.io/proxyMemoryLimit: 128Mi
+        sidecar.istio.io/proxyCPU: 150m
+        sidecar.istio.io/proxyMemory: 128Mi            
       labels:
         app: reviews
         version: v1
@@ -125,7 +125,7 @@ spec:
         resources:
          limits:
             cpu: 50m
-            memory: 64Mi
+            memory: 128Mi
          requests:
             cpu: 50m
             memory: 64Mi	          
@@ -153,9 +153,9 @@ spec:
     metadata:
       annotations:
         sidecar.istio.io/inject: "true"
-        sidecar.istio.io/proxyCPULimit: 50m
-        sidecar.istio.io/proxyMemoryLimit: 64Mi
-        sidecar.istio.io/proxyCPU: 50m
+        sidecar.istio.io/proxyCPULimit: 150m
+        sidecar.istio.io/proxyMemoryLimit: 128Mi
+        sidecar.istio.io/proxyCPU: 150m
         sidecar.istio.io/proxyMemory: 64Mi            
       labels:
         app: reviews
@@ -173,10 +173,10 @@ spec:
         - containerPort: 9080
         resources:
          limits:
-            cpu: 50m
+            cpu: 150m
             memory: 64Mi
          requests:
-            cpu: 50m
+            cpu: 150m
             memory: 64Mi	        
         volumeMounts:
         - name: tmp
@@ -252,9 +252,9 @@ spec:
         prometheus.io/port: "9080"
         prometheus.io/path: "/metrics"
         sidecar.istio.io/inject: "true"
-        sidecar.istio.io/proxyCPULimit: 50m
-        sidecar.istio.io/proxyMemoryLimit: 64Mi
-        sidecar.istio.io/proxyCPU: 50m
+        sidecar.istio.io/proxyCPULimit: 150m
+        sidecar.istio.io/proxyMemoryLimit: 128Mi
+        sidecar.istio.io/proxyCPU: 150m
         sidecar.istio.io/proxyMemory: 64Mi          
       labels:
         app: productpage
@@ -269,10 +269,10 @@ spec:
         - containerPort: 9080
         resources:
          limits:
-            cpu: 50m
+            cpu: 150m
             memory: 64Mi
          requests:
-            cpu: 50m
+            cpu: 150m
             memory: 64Mi	        
         volumeMounts:
         - name: tmp
@@ -460,7 +460,7 @@ spec:
       annotations:
         sidecar.istio.io/inject: "true"
         sidecar.istio.io/proxyCPULimit: 150m
-        sidecar.istio.io/proxyMemoryLimit: 64Mi
+        sidecar.istio.io/proxyMemoryLimit: 128Mi
         sidecar.istio.io/proxyCPU: 50m
         sidecar.istio.io/proxyMemory: 64Mi            
       labels:
@@ -528,7 +528,7 @@ spec:
         sidecar.istio.io/inject: "true"
         sidecar.istio.io/proxyCPULimit: 150m
         sidecar.istio.io/proxyMemoryLimit: 64Mi
-        sidecar.istio.io/proxyCPU: 50m
+        sidecar.istio.io/proxyCPU: 150m
         sidecar.istio.io/proxyMemory: 64Mi            
       labels:
         app: ratings
@@ -546,7 +546,7 @@ spec:
             cpu: 150m
             memory: 128Mi
          requests:
-            cpu: 50m
+            cpu: 150m
             memory: 64Mi	        
 ---
 apiVersion: networking.istio.io/v1alpha3
