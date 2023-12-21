@@ -263,7 +263,7 @@ spec:
       serviceAccountName: bookinfouctpage
       containers:
       - name: productpage
-        image: quay.io/maistra/examples-bookinfouctpage-v1:2.4.0
+        image: quay.io/maistra/examples-bookinfouctpage-v1:2.3.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9080
